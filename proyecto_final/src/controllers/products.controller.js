@@ -1,7 +1,8 @@
 import * as Model from "../models/Products.js";
 
 export const getProducts = async (req, res) => {
-    const {category, price} = req.query;
+    const query = req.query ?? {};
+    const {category, price} = query;
     
     const all = await Model.getProduct();
     const maxPrice = price ? parseFloat(price) : undefined;
@@ -22,7 +23,8 @@ export const getProductByID = async (req,res) => {
 }
 
 export const createProduct = async (req,res) => {
-    const {name, category, price, description, stock} = req.body
+    const body = req.body ?? {};
+    const {name, category, price, description, stock} = body
     
     if(!name || (!category || "") || !price  || !stock){
         return res.status(400).json({error: "Required fields are missing"});
@@ -46,7 +48,8 @@ export const deleteProduct = async (req,res) => {
 
 export const updateProduct = async (req,res) => {
     const id = req.params.id;
-    const {name, category, price, description, stock} = req.body
+    const body = req.body ?? {};
+    const {name, category, price, description, stock} = body
 
     if(!name || (!category) || !price  || !stock){
         return res.status(400).json({error: "Required fields are missing"});
@@ -64,11 +67,11 @@ export const updatePatchProduct = async (req, res) => {
     const body = req.body ?? {};
     const data = {};
     
-    if (body.name !== undefined) data.name = req.body.name;
-    if (body.category !== undefined) data.category = req.body.category;
-    if (body.price !== undefined) data.price = req.body.price;
-    if (body.description !== undefined) data.description = req.body.description;
-    if (body.stock !== undefined) data.stock = req.body.stock;
+    if (body.name !== undefined) data.name = body.name;
+    if (body.category !== undefined) data.category = body.category;
+    if (body.price !== undefined) data.price = body.price;
+    if (body.description !== undefined) data.description = body.description;
+    if (body.stock !== undefined) data.stock = body.stock;
 
     if(Object.keys(data).length === 0){
         return res.status(400).json({error: "No fields provided for update"});
