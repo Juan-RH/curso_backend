@@ -12,12 +12,13 @@ const router = Router();
 
 router.route('/products')
         .get(getProducts)
-        .post(verifyToken, createProduct);
 
 router.route('/products/:id')
-        .get(getProductByID)    
-        .delete(deleteProduct)
+        .get(getProductByID)
+        .delete(verifyToken, deleteProduct)
         .patch(verifyToken, updatePatchProduct)
         .put(verifyToken, updateProduct);
+
+router.post('/products/create', verifyToken, createProduct)
 
 export default router;
