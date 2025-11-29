@@ -6,18 +6,18 @@ import {getProducts,
          updateProduct,
          updatePatchProduct
 } from "../controllers/products.controller.js"
-
+import { verifyToken } from "../middlewares/verify-token.js";
 const router = Router();
 
 
 router.route('/products')
         .get(getProducts)
-        .post(createProduct);
+        .post(verifyToken, createProduct);
 
 router.route('/products/:id')
         .get(getProductByID)    
         .delete(deleteProduct)
-        .patch(updatePatchProduct)
-        .put(updateProduct);
+        .patch(verifyToken, updatePatchProduct)
+        .put(verifyToken, updateProduct);
 
 export default router;
